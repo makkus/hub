@@ -1,0 +1,3 @@
+dependencies {
+    compile ("things:small-things:0.1.0-SNAPSHOT")
+}

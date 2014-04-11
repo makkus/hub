@@ -1,0 +1,4 @@
+include 'hub-model'
+include 'hub'
+
+rootProject.name = 'hub-meta'
