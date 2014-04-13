@@ -79,7 +79,7 @@ public class UserLookup implements ThingQuery {
         }
 
         User user = new User();
-        List<Thing> usernames = tc.getOtherThingsByType(p, Username.class);
+        List<Thing<Username>> usernames = tc.getOtherThingsByType(p, Username.class);
         usernames.stream().forEach(un -> user.addUsername(un.getKey(), un.getValueId())); // can use valueid because we know it's a singlestringvalue
 
         user.setPerson((Person) tc.getValue(p));

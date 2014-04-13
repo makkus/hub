@@ -1,3 +1,5 @@
 dependencies {
-    compile ("things:small-things:0.1.0-SNAPSHOT")
+    compile ("things:small-things:0.1-SNAPSHOT")
+    compile("com.google.guava:guava:15.0")
+
 }

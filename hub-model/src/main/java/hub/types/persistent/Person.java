@@ -1,16 +1,15 @@
 package hub.types.persistent;
 
-import java.util.Objects;
-
+import com.google.common.base.Strings;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-//import org.springframework.data.annotation.Id;
-//import org.springframework.data.mongodb.core.mapping.Document;
-
 import things.model.PersistentValue;
 import things.model.types.attributes.UniqueKey;
 
-import com.google.common.base.Strings;
+import java.util.Objects;
+
+//import org.springframework.data.annotation.Id;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Project: hub

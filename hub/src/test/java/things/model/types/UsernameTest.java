@@ -1,10 +1,10 @@
 package things.model.types;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import hub.types.persistent.Username;
 import org.junit.Test;
 
-import things.external.types.persistent.Username;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 /**
  * Project: hub

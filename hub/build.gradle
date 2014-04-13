@@ -16,7 +16,7 @@ repositories {
 dependencies {
 
     compile project(":hub-model")
-    compile("things:things:0.1.0-SNAPSHOT")
+    compile("things:things:0.1-SNAPSHOT")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.hamcrest:hamcrest-core:1.3")
