@@ -5,7 +5,6 @@ import hub.types.persistent.Role;
 import hub.types.persistent.Username;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import things.control.ThingAction;
-import things.control.ThingControl;
 import things.model.Thing;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class ClearMongoDatabase implements ThingAction {
     }
 
     @Override
-    public boolean execute(ThingControl tc, List<Thing> things) {
+    public boolean execute(List<Thing> things) {
         
         mo.dropCollection(Person.class);
         mo.dropCollection(Thing.class);

@@ -50,10 +50,10 @@ public class SshJobsLister implements ThingReader {
         this.site = site;
 
         try {
-            jsch.setKnownHosts("/home/markus/.ssh/known_hosts");
+            jsch.setKnownHosts(System.getProperty("user.home")+"/.ssh/known_hosts");
             jsch.setConfig("PreferredAuthentications", "publickey");
 
-            jsch.addIdentity("/home/markus/.ssh/id_markus");
+            jsch.addIdentity(System.getProperty("user.home")+"/.ssh/id_markus");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

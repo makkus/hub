@@ -5,6 +5,7 @@ import com.unboundid.ldap.sdk.*;
 import hub.types.dynamic.User;
 import hub.types.persistent.Person;
 import hub.types.persistent.Username;
+import org.springframework.beans.factory.annotation.Autowired;
 import things.control.ThingAction;
 import things.control.ThingControl;
 import things.control.TypeRegistry;
@@ -26,6 +27,9 @@ import java.util.stream.Stream;
  * Time: 10:01 AM
  */
 public class LdapImporter implements ThingAction {
+
+    @Autowired
+    private ThingControl tc;
 
     public static List<User> retrieveLdapUsers() throws LDAPException {
 
@@ -95,7 +99,7 @@ public class LdapImporter implements ThingAction {
 
 
     @Override
-    public boolean execute(ThingControl tc, List<Thing> things) {
+    public boolean execute(List<Thing> things) {
 
         List<User> users;
         try {
