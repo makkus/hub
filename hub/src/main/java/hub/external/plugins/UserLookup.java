@@ -3,13 +3,13 @@ package hub.external.plugins;
 import hub.types.dynamic.User;
 import hub.types.persistent.Person;
 import hub.types.persistent.Username;
-import things.control.ThingControl;
+import things.thing.ThingControl;
 import things.control.ThingQuery;
 import things.control.TypeRegistry;
 import things.exceptions.NoSuchThingException;
 import things.exceptions.ThingException;
 import things.exceptions.ThingRuntimeException;
-import things.model.Thing;
+import things.thing.Thing;
 import things.model.Value;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class UserLookup implements ThingQuery {
 
     public Thing lookupUser(ThingControl tc, Thing usernameOrPerson) {
 
-        Value value = usernameOrPerson.getValue();
+        Value value = tc.getValue(usernameOrPerson);
 
         if ( value == null ) {
             if ( usernameOrPerson.getId() != null ) {
@@ -50,7 +50,7 @@ public class UserLookup implements ThingQuery {
                     } else {
                         throw new NoSuchThingException("Can't find Person.", usernameOrPerson.getThingType(), usernameOrPerson.getKey(), usernameOrPerson.getId());
                     }
-                    value = tc.getValue(usernameOrPerson);
+                    value = tc.getUntypedValue(usernameOrPerson);
                 } catch (ThingException e) {
                     throw new ThingRuntimeException("Could not find a person or identity with type: "+usernameOrPerson.getThingType()+" and key: "+usernameOrPerson.getKey());
                 }
@@ -82,7 +82,7 @@ public class UserLookup implements ThingQuery {
         List<Thing<Username>> usernames = tc.getOtherThingsByType(p, Username.class);
         usernames.stream().forEach(un -> user.addUsername(un.getKey(), un.getValueId())); // can use valueid because we know it's a singlestringvalue
 
-        user.setPerson((Person) tc.getValue(p));
+        user.setPerson((Person) tc.getUntypedValue(p));
 
         return new Thing(p.getKey(), user);
     }

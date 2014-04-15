@@ -9,14 +9,14 @@ import com.jcraft.jsch.Session;
 import hub.types.dynamic.JobStatus;
 import hub.types.dynamic.Jobs;
 import hub.types.persistent.Username;
-import things.control.ThingControl;
+import things.thing.ThingControl;
 import things.control.ThingReader;
 import things.control.TypeRegistry;
 import things.exceptions.KeyRuntimeException;
 import things.exceptions.ThingRuntimeException;
 import things.exceptions.TypeRuntimeException;
 import things.model.PersistentValue;
-import things.model.Thing;
+import things.thing.Thing;
 import things.model.Value;
 import things.utils.MatcherUtils;
 
@@ -109,7 +109,7 @@ public class SshJobsLister implements ThingReader {
 
         final List<Thing> result = Lists.newArrayList();
 
-        Set<String> usernames = identities.stream().map(id -> ((Username)tc.getValue(id)).getValue()).collect(Collectors.toSet());
+        Set<String> usernames = identities.stream().map(id -> ((Username)tc.getUntypedValue(id)).getValue()).collect(Collectors.toSet());
 
         Jobs jobs = getJobs(usernames);
 

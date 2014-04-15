@@ -5,7 +5,7 @@ import hub.types.persistent.Role;
 import hub.types.persistent.Username;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import things.control.ThingAction;
-import things.model.Thing;
+import things.thing.Thing;
 
 import java.util.List;
 

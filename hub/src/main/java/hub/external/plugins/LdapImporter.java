@@ -7,11 +7,11 @@ import hub.types.persistent.Person;
 import hub.types.persistent.Username;
 import org.springframework.beans.factory.annotation.Autowired;
 import things.control.ThingAction;
-import things.control.ThingControl;
+import things.thing.ThingControl;
 import things.control.TypeRegistry;
 import things.exceptions.ThingRuntimeException;
 import things.model.SingleStringValue;
-import things.model.Thing;
+import things.thing.Thing;
 
 import java.util.Arrays;
 import java.util.List;
@@ -129,7 +129,7 @@ public class LdapImporter implements ThingAction {
                     try {
                         SingleStringValue username = TypeRegistry.createSingleStringValue(Username.class, un);
                         Stream<Thing> otherThingMatches = tc.getOtherThingsStreamByValue(tp, username);
-                        if ( otherThingMatches.map(t -> tc.getValue(t)).anyMatch(v -> username.equals(v)) ) {
+                        if ( otherThingMatches.map(t -> tc.getUntypedValue(t)).anyMatch(v -> username.equals(v)) ) {
                             System.out.println("Username already in db: "+un);
                             continue;
                         }
