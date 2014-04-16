@@ -1,4 +1,4 @@
-package hub.external.plugins;
+package hub.actions;
 
 import hub.types.persistent.Person;
 import hub.types.persistent.Role;

@@ -1,4 +1,4 @@
-package hub.external.plugins;
+package hub.actions;
 
 import com.google.common.base.Joiner;
 import com.unboundid.ldap.sdk.*;

@@ -1,7 +1,7 @@
 package hub;
 
 import com.unboundid.ldap.sdk.LDAPException;
-import hub.config.HubConfig;
+import hub.config.hub.HubConfig;
 import org.springframework.boot.SpringApplication;
 import things.exceptions.ThingException;
 import things.exceptions.ValueException;
