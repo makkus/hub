@@ -1,15 +1,17 @@
 package hub.types.dynamic;
 
 import com.google.common.collect.Maps;
-import things.model.Value;
+import things.model.types.Value;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Map;
 
 /**
  * @author: Markus Binsteiner
  */
-public class AuditRecord implements Value {
+@Value(typeName = "auditrecord")
+public class AuditRecord implements Serializable {
 
     private final Map<String, BigDecimal> coreHours = Maps.newConcurrentMap();
 

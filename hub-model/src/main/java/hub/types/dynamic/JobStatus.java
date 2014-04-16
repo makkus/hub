@@ -1,11 +1,10 @@
 package hub.types.dynamic;
 
-import java.util.Set;
-
-import things.model.Value;
-
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Sets;
+import things.model.types.Value;
+
+import java.util.Set;
 
 /**
  * Project: things
@@ -14,7 +13,8 @@ import com.google.common.collect.Sets;
  * Date: 28/03/14
  * Time: 12:49 PM
  */
-public class JobStatus implements Comparable<JobStatus>,Value {
+@Value(typeName = "jobstatus")
+public class JobStatus implements Comparable<JobStatus> {
 
     public enum STATE {
         cancelled("CA"),
