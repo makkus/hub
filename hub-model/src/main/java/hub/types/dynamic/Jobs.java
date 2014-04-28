@@ -1,9 +1,8 @@
 package hub.types.dynamic;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
-
-import things.model.Value;
 
 /**
  * Project: things
@@ -12,7 +11,7 @@ import things.model.Value;
  * Date: 28/03/14
  * Time: 2:32 PM
  */
-public class Jobs implements Value {
+public class Jobs implements Serializable {
     
     
     private Instant timestamp;

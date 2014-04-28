@@ -15,6 +15,7 @@ import things.thing.Thing;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -98,7 +99,6 @@ public class LdapImporter implements ThingAction {
     }
 
 
-    @Override
     public boolean execute(List<Thing> things) {
 
         List<User> users;
@@ -146,5 +146,10 @@ public class LdapImporter implements ThingAction {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean execute(String command, Map<String, String> parameters, List<Thing> things) {
+        return false;
     }
 }

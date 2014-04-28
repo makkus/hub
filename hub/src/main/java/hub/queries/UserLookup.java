@@ -10,11 +10,11 @@ import things.control.ThingQuery;
 import things.control.TypeRegistry;
 import things.exceptions.NoSuchThingException;
 import things.exceptions.ThingRuntimeException;
-import things.model.Value;
 import things.thing.Thing;
 import things.thing.ThingControl;
 import things.utils.MatcherUtils;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,7 +84,7 @@ public class UserLookup implements ThingQuery<User> {
                 personThings = Lists.newArrayList(person);
             } else if (!StringUtils.isEmpty(usernameOrPerson.getKey())) {
             } else {
-                Value value = tc.getValue(usernameOrPerson);
+                Serializable value = tc.getValue(usernameOrPerson);
                 personThings = tc.findThingsWithValue((Person)value);
             }
 
@@ -104,7 +104,7 @@ public class UserLookup implements ThingQuery<User> {
 
 	public Thing<Person> lookupPerson(Thing usernameOrPerson) {
 
-        Value value = tc.getValue(usernameOrPerson);
+        Serializable value = tc.getValue(usernameOrPerson);
 
         Thing<Person> p = null;
 

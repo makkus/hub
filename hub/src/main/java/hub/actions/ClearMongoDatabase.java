@@ -8,6 +8,7 @@ import things.control.ThingAction;
 import things.thing.Thing;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Markus Binsteiner
@@ -20,9 +21,10 @@ public class ClearMongoDatabase implements ThingAction {
         this.mo = mo;
     }
 
+
+
     @Override
-    public boolean execute(List<Thing> things) {
-        
+    public boolean execute(String command, Map<String, String> parameters, List<Thing> things) {
         mo.dropCollection(Person.class);
         mo.dropCollection(Thing.class);
         mo.dropCollection(Username.class);
