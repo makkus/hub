@@ -1,8 +1,11 @@
 package hub.types.dynamic;
 
+import things.model.Value;
+import hub.types.persistent.Person;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import hub.types.persistent.Person;
+import things.model.types.Value;
 
 import java.io.Serializable;
 
@@ -11,6 +14,7 @@ import java.io.Serializable;
  * <p>
  * Written by: Markus Binsteiner Date: 31/03/14 Time: 4:21 PM
  */
+@Value(typeName = "user")
 public class User implements Serializable {
 
 //    private String uniqueId;

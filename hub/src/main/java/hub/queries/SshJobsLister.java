@@ -9,6 +9,7 @@ import com.jcraft.jsch.Session;
 import hub.types.dynamic.JobStatus;
 import hub.types.dynamic.Jobs;
 import hub.types.persistent.Username;
+import things.thing.ThingControl;
 import things.control.ThingReader;
 import things.control.TypeRegistry;
 import things.exceptions.KeyRuntimeException;
@@ -20,6 +21,7 @@ import things.thing.ThingControl;
 import things.utils.MatcherUtils;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -117,7 +119,9 @@ public class SshJobsLister implements ThingReader {
         return Lists.newArrayList(t);
     }
 
-
+    public Set<String> lookupThingsForValue(Serializable value) {
+        return null;
+    }
 
     @Override
     public PersistentValue readValue(String type, String valueId) {

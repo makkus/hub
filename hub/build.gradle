@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE")
-        classpath("com.github.ben-manes:gradle-jooq-plugin:0.7")
+        classpath("com.github.ben-manes:gradle-jooq-plugin:+")
         classpath("mysql:mysql-connector-java:5.1.30")
     }
 }
