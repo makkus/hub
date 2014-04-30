@@ -1,22 +1,25 @@
 package hub.types.persistent;
 
-import java.util.Objects;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import things.model.SingleStringValue;
+import things.model.types.Value;
 import things.model.types.attributes.Subordinate;
 import things.model.types.attributes.UniqueKeyInOtherThings;
 
+import java.util.Objects;
+
 /**
- * Project: hub
- * <p/>
- * Written by: Markus Binsteiner
- * Date: 12/03/14
- * Time: 1:51 PM
+ * A username is the identifying token for a user on a system.
+ *
+ * It is linked to the {@link Person} object. When adding a Username to a Person, the key that is used is
+ * the name of the system where the username is used.
+ *
+ * A {@link Person}} object can have multiple Usernames with the same keys, since a user can have multiple
+ * accounts on a system.
  */
 @UniqueKeyInOtherThings(unique = false)
 @Subordinate(parentClass = Person.class)
+@Value(typeName = "username")
 public class Username implements SingleStringValue {
 
     @NotEmpty

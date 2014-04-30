@@ -3,14 +3,6 @@ package hub.config.hub;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.jolbox.bonecp.BoneCPDataSource;
-import hub.queries.SshJobsLister;
-import hub.utils.JOOQToSpringExceptionTransformer;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DataSourceConnectionProvider;
-import org.jooq.impl.DefaultConfiguration;
-import org.jooq.impl.DefaultDSLContext;
-import org.jooq.impl.DefaultExecuteListenerProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -21,15 +13,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
-import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import things.config.mongo.MongoThingConfiguration;
+import things.control.ThingLookup;
 import things.control.ThingReader;
 import things.control.ThingWriter;
 
-import javax.sql.DataSource;
 import java.util.TreeMap;
 
 /**
@@ -42,17 +31,25 @@ import java.util.TreeMap;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:pan_audit.properties")
+@PropertySource("classpath:projectdb.properties")
+@PropertySource("classpath:sshJobLister.properties")
+@PropertySource(value = "file:/etc/hub/hub.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${HOME}/.hub/hub.properties", ignoreResourceNotFound = true)
 @ComponentScan(basePackages = "hub.config.hub")
 @EnableAutoConfiguration(exclude = {HibernateJpaAutoConfiguration.class, DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 public class HubConfig extends MongoThingConfiguration {
 
+    @Autowired
+    private Environment env;
 
     @Override
     protected String getDatabaseName() {
         return "hub";
     }
 
-    @Bean
+
+    @Bean(name = "thingReaders")
     public Multimap<String, ThingReader> thingReaders() throws Exception {
 
         Multimap<String, ThingReader> map = ArrayListMultimap.create();
@@ -60,18 +57,10 @@ public class HubConfig extends MongoThingConfiguration {
         map.put("type/*", mongoConnector());
         map.put("role/*", mongoConnector());
 
-        SshJobsLister sjl = new SshJobsLister("uoa");
-        map.put("jobs/uoa", sjl);
-
-//        UserAssembly pac = new UserAssembly();
-
-//        map.put("user/*", pac);
-//        map.put("user/*", pac);
-
         return map;
     }
 
-    @Bean
+    @Bean(name = "thingWriters")
     public TreeMap<String, ThingWriter> thingWriters() throws Exception {
 
         TreeMap<String, ThingWriter> writerMap = Maps.newTreeMap();
@@ -83,85 +72,17 @@ public class HubConfig extends MongoThingConfiguration {
     }
 
 
+    @Bean(name = "thingLookups")
+    public Multimap<String, ThingLookup> thingLookups() throws Exception {
 
+        Multimap<String, ThingLookup> map = ArrayListMultimap.create();
+        map.put("person/*", mongoConnector());
+        map.put("type/*", mongoConnector());
+        map.put("role/*", mongoConnector());
 
-
-
-
-    @Autowired
-    private Environment env;
-
-    @Bean(destroyMethod = "close", name = "jooqDataSource")
-    public DataSource dataSource() {
-        BoneCPDataSource dataSource = new BoneCPDataSource();
-
-        dataSource.setDriverClass(env.getRequiredProperty("db.driver"));
-        dataSource.setJdbcUrl(env.getRequiredProperty("db.url"));
-        dataSource.setUsername(env.getRequiredProperty("db.username"));
-        dataSource.setPassword(env.getRequiredProperty("db.password"));
-
-        return dataSource;
+        return map;
     }
 
-    @Bean
-    public LazyConnectionDataSourceProxy lazyConnectionDataSource() {
-        return new LazyConnectionDataSourceProxy(dataSource());
-    }
-
-    @Bean
-    public TransactionAwareDataSourceProxy transactionAwareDataSource() {
-        return new TransactionAwareDataSourceProxy(lazyConnectionDataSource());
-    }
-
-    @Bean
-    public DataSourceTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(lazyConnectionDataSource());
-    }
-
-    @Bean
-    public DataSourceConnectionProvider connectionProvider() {
-        return new DataSourceConnectionProvider(transactionAwareDataSource());
-    }
-
-    @Bean
-    public JOOQToSpringExceptionTransformer jooqToSpringExceptionTransformer() {
-        return new JOOQToSpringExceptionTransformer();
-    }
-
-    @Bean
-    public DefaultConfiguration configuration() {
-        DefaultConfiguration jooqConfiguration = new DefaultConfiguration();
-
-        jooqConfiguration.set(connectionProvider());
-        jooqConfiguration.set(new DefaultExecuteListenerProvider(
-            jooqToSpringExceptionTransformer()
-        ));
-
-        String sqlDialectName = env.getRequiredProperty("jooq.sql.dialect");
-        SQLDialect dialect = SQLDialect.valueOf(sqlDialectName);
-        jooqConfiguration.set(dialect);
-
-        return jooqConfiguration;
-    }
-
-    @Bean
-    public DefaultDSLContext dsl() {
-        return new DefaultDSLContext(configuration());
-    }
-
-//    @Bean
-//    public DataSourceInitializer dataSourceInitializer() {
-//        DataSourceInitializer initializer = new DataSourceInitializer();
-//        initializer.setDataSource(dataSource());
-//
-//        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-//        populator.addScript(
-//                new ClassPathResource(env.getRequiredProperty("db.schema.script"))
-//        );
-//
-//        initializer.setDatabasePopulator(populator);
-//        return initializer;
-//    }
 }
 
 

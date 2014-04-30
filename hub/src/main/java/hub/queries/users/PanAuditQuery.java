@@ -1,4 +1,4 @@
-package hub.queries;
+package hub.queries.users;
 
 import com.google.common.collect.Lists;
 import hub.types.dynamic.AuditRecord;
@@ -13,8 +13,10 @@ import things.exceptions.QueryException;
 import things.thing.Thing;
 import things.thing.ThingControl;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Markus Binsteiner
@@ -24,16 +26,16 @@ public class PanAuditQuery implements ThingQuery<AuditRecord> {
     @Autowired
     private ThingControl tc;
 
-    @Autowired
+    @Resource(name = "panAuditContext")
     private DefaultDSLContext jooq;
 
     @Autowired
-    private UserLookup userLookup;
+    private UserUtils userUtils;
 
     @Override
-    public List<Thing<AuditRecord>> queryThings(List<Thing> things) throws QueryException {
+    public List<Thing<AuditRecord>> query(List<Thing> things, Map<String, String> params) throws QueryException {
 
-        List<Thing<Username>> usernames = userLookup.getUsernames(things);
+        List<Thing<Username>> usernames = userUtils.getUsernames(things);
         List<Thing<AuditRecord>> records = Lists.newArrayList();
         for ( Thing<Username> un : usernames ) {
             Thing t = new Thing(un.getValueId(), getAudit(un));
@@ -43,6 +45,7 @@ public class PanAuditQuery implements ThingQuery<AuditRecord> {
     }
 
     private AuditRecord getAudit(Thing<Username> un) {
+
         Result<Record2<Integer, BigDecimal>> result = jooq
                 .select(Tables.AUDIT_USER.DONE, Tables.AUDIT_USER.CORE_HOURS)
                 .from(Tables.AUDIT_USER)
@@ -52,7 +55,6 @@ public class PanAuditQuery implements ThingQuery<AuditRecord> {
 
         result.stream()
                 .forEach(r -> ar.addJob(r.getValue(Tables.AUDIT_USER.DONE).toString(), r.getValue(Tables.AUDIT_USER.CORE_HOURS)));
-
 
         return ar;
     }

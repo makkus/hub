@@ -14,6 +14,11 @@ task wrapper(type: Wrapper) {
 
 apply plugin:'idea'
 
+ext {
+    springVersion = '4.0.0.RELEASE'
+    springDataCommonsVersion = '1.7.1.RELEASE'
+}
+
 
 version = '0.1-SNAPSHOT'
 group = 'hub'
@@ -47,6 +52,8 @@ subprojects {
     publishing {
         publications {
             mavenJava(MavenPublication) {
+                groupId 'researchHub'
+                version version
                 from components.java
             }
         }

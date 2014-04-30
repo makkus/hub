@@ -1,7 +1,5 @@
 package hub.types.dynamic;
 
-import things.model.Value;
-import hub.types.persistent.Person;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import hub.types.persistent.Person;
@@ -20,6 +18,16 @@ public class User implements Serializable {
 //    private String uniqueId;
     private Person person;
     private Multimap<String, String> usernames = ArrayListMultimap.create();
+
+    public Multimap<String, String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Multimap<String, String> roles) {
+        this.roles = roles;
+    }
+
+    private Multimap<String, String> roles = ArrayListMultimap.create();
 
     public User() {
     }
@@ -50,5 +58,9 @@ public class User implements Serializable {
     
     public void addUsername(String key, String id) {
         this.usernames.put(key, id);
+    }
+
+    public void addRole(String key, String role) {
+        this.roles.put(key, role);
     }
 }

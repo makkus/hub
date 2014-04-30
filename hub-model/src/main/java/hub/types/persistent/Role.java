@@ -1,22 +1,22 @@
 package hub.types.persistent;
 
-import java.util.Objects;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import things.model.SingleStringValue;
+import things.model.types.Value;
 import things.model.types.attributes.Subordinate;
 import things.model.types.attributes.UniqueKeyInOtherThings;
+import things.model.types.attributes.UniqueValueForKey;
+
+import java.util.Objects;
 
 /**
- * Project: hub
- * <p/>
- * Written by: Markus Binsteiner
- * Date: 12/03/14
- * Time: 1:51 PM
+ * A role is just an arbitrary String which will be used to determine
+ * permissions by an authorization engine.
  */
 @UniqueKeyInOtherThings(unique = false)
 @Subordinate(parentClass = Person.class)
+@Value(typeName = "role")
+@UniqueValueForKey(unique = true)
 public class Role implements SingleStringValue {
 
     @NotEmpty
@@ -39,8 +39,6 @@ public class Role implements SingleStringValue {
     public void setValue(String value) {
         this.rolename = value;
     }
-
-
 
     public int hashCode() {
         return Objects.hashCode(getValue());

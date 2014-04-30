@@ -21,7 +21,7 @@ import java.sql.SQLException;
 public class JooqTest {
     
 
-	public static void main(String[] args) throws ValueException, ThingException, LDAPException, InterruptedException {
+	public static void main2(String[] args) throws ValueException, ThingException, LDAPException, InterruptedException {
 
 //        AbstractApplicationContext context = new AnnotationConfigApplicationContext(HubConfig.class);
 

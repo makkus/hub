@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-import things.model.Value;
-
 /**
  * Project: things
  * <p>

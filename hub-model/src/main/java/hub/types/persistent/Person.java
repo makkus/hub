@@ -1,27 +1,19 @@
 package hub.types.persistent;
 
-import java.util.Objects;
-
+import com.google.common.base.Strings;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import things.model.PersistentValue;
+import things.model.types.Value;
 import things.model.types.attributes.UniqueKey;
 
-import com.google.common.base.Strings;
-
-//import org.springframework.data.annotation.Id;
-//import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.Objects;
 
 /**
- * Project: hub
- * <p/>
- * Written by: Markus Binsteiner
- * Date: 12/03/14
- * Time: 1:51 PM
+ * A Person is an object that holds person details, like first, middle and last name, email.
  */
 @UniqueKey(unique = true)
-//@Document(collection = "person")
+@Value(typeName = "person")
 public class Person implements PersistentValue {
 
 //    @Id
@@ -116,6 +108,13 @@ public class Person implements PersistentValue {
                 '}';
     }
 
+    /**
+     * Convenience method, outputs the persons' name.
+     *
+     * Format depends on whether it contains a middle name or not.
+     *
+     * @return the name string
+     */
     public String nameToString() {
         if ( Strings.isNullOrEmpty(middle_names)) {
             return first_name+" "+last_name;

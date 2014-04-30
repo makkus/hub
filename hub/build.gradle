@@ -1,6 +1,6 @@
 apply plugin: 'war'
 apply plugin: 'spring-boot'
-apply plugin: 'jooq'
+//apply plugin: 'jooq'
 
 buildscript {
     repositories {
@@ -25,17 +25,34 @@ springBoot {
     mainClass = "hub.HubService"
 }
 
+sourceSets {
+
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/generated/pan/auditdb', '/src/main/generated/projectdb']
+        }
+    }
+
+}
+
 dependencies {
 
     compile project(":hub-model")
     compile("things:things:0.1-SNAPSHOT")
 
     // for auditdb connection
-    compile("org.springframework:spring-jdbc")
+    compile("org.springframework:spring-jdbc:" + springVersion)
     compile("org.jooq:jooq:3.3.1")
     compile("com.jolbox:bonecp:0.8.0.RELEASE")
     compile("cglib:cglib:3.1")
     compile("mysql:mysql-connector-java:5.1.30")
+
+//    compile("org.codehaus.groovy:groovy:1.8.6")
+
+
+    compile("com.unboundid:unboundid-ldapsdk:2.3.6")
+
+    compile("com.jcraft:jsch:0.1.51")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.hamcrest:hamcrest-core:1.3")
@@ -45,25 +62,28 @@ dependencies {
 
 }
 
-jooq {
-    jdbc {
-        url 'jdbc:mysql://localhost:3306'
-        driver 'com.mysql.jdbc.Driver'
-        user 'markus'
-        password 'password'
-    }
-    generator {
-        database {
-            name 'org.jooq.util.mysql.MySQLDatabase'
-            inputSchema 'pandora_audit'
-            includes '.*'
-        }
-        target {
-            packageName 'pan.auditdb'
-            directory projectDir.getAbsolutePath()+'/src/main/generated/pan/auditdb'
-        }
-    }
-    generate {
-        deprecated false
-    }
-}
+//jooq {
+//
+//    jdbc {
+//        url 'jdbc:mysql://localhost:3306'
+//        driver 'com.mysql.jdbc.Driver'
+//        user 'markus'
+//        password 'password'
+//    }
+//    generator {
+//        database {
+//            name 'org.jooq.util.mysql.MySQLDatabase'
+//            inputSchema 'pandora_audit'
+//            includes '.*'
+//        }
+//        target {
+//            packageName 'pan.auditdb'
+//            directory projectDir.getAbsolutePath() + '/src/main/generated/pan/auditdb' + '/src/main/generated/projectdb'
+//        }
+//    }
+//    generate {
+//        deprecated false
+//    }
+//
+//}
+

@@ -2,6 +2,7 @@ package hub.config.hub;
 
 import com.google.common.collect.Maps;
 import hub.actions.ClearMongoDatabase;
+import hub.actions.ImportRoleAndGroupAction;
 import hub.actions.LdapImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,11 +30,17 @@ public class Actions {
     }
 
     @Bean
+    public ImportRoleAndGroupAction importRoleAndGroupAction() throws Exception {
+        ImportRoleAndGroupAction i = new ImportRoleAndGroupAction();
+        return i;
+    }
+
+    @Bean
     public TreeMap<String, ThingAction> thingActions() throws Exception {
 
         TreeMap<String, ThingAction> actionMap = Maps.newTreeMap();
-
         actionMap.put("import_uoa_ldap", ldapImporter());
+        actionMap.put("import_projectdb", importRoleAndGroupAction());
 
         ClearMongoDatabase cmd = new ClearMongoDatabase(mongoTemplate);
 

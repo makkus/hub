@@ -14,7 +14,6 @@ import things.exceptions.ValueException;
  * Time: 10:56 AM
  */
 public class HubService {
-    
 
 	public static void main(String[] args) throws ValueException, ThingException, LDAPException, InterruptedException {
 
