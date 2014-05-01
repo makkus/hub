@@ -115,7 +115,7 @@ public class LdapImporter implements ThingAction {
     }
 
     @Override
-    public boolean execute(String command, List<Thing> things, Map<String, String> parameters) {
+    public String execute(String command, List<Thing> things, Map<String, String> parameters) {
 
         List<User> users;
         try {
@@ -161,7 +161,7 @@ public class LdapImporter implements ThingAction {
 
         }
 
-        return true;
+        return null;
     }
 
 

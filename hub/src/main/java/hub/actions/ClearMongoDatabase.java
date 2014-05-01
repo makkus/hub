@@ -23,13 +23,12 @@ public class ClearMongoDatabase implements ThingAction {
 
 
     @Override
-    public boolean execute(String command, List<Thing> things, Map<String, String> parameters) {
+    public String execute(String command, List<Thing> things, Map<String, String> parameters) {
         mo.dropCollection(Person.class);
         mo.dropCollection(Thing.class);
         mo.dropCollection(Username.class);
         mo.dropCollection(Role.class);
 
-        return true;
-
+        return null;
     }
 }

@@ -34,8 +34,7 @@ public class ImportRoleAndGroupAction implements ThingAction {
     public static final String PROJECT_DB_KEY = "projectdb";
     public static final String PROJECT_DB_ADMIN_VALUE = "admin";
     public static final String PROJECT_DB_ADVISER_VALUE = "adviser";
-    public static final String PROJECT_DB_RESEARCHER_VALUE = "researcher";
-    
+
     private Map<String, Thing<Role>> roles = Maps.newConcurrentMap();
 
     @Autowired
@@ -51,12 +50,12 @@ public class ImportRoleAndGroupAction implements ThingAction {
     private Map<Integer, String> roleMap = null;
     
     @Override
-    public boolean execute(String s, List<Thing> things, Map<String, String> stringStringMap) {
+    public String execute(String s, List<Thing> things, Map<String, String> stringStringMap) {
         
         Stream<Thing<Person>> persons = userUtils.getPersonStream(things);
 
         persons.forEach(p -> checkProjectDb(p));
-        return true;
+        return null;
     }
 
     private void checkProjectDb(Thing person) {
