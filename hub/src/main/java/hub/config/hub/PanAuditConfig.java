@@ -10,6 +10,7 @@ import org.jooq.impl.DefaultExecuteListenerProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
@@ -34,7 +35,7 @@ public class PanAuditConfig {
     // Pan audit connector
 
     @Bean(destroyMethod = "close", name = "panAuditDataSource")
-    public DataSource dataSource() {
+    public DataSource panAuditDataSource() {
         BoneCPDataSource dataSource = new BoneCPDataSource();
 
         dataSource.setDriverClass(env.getRequiredProperty("pan.db.driver"));
@@ -46,37 +47,38 @@ public class PanAuditConfig {
     }
 
     @Bean
-    public LazyConnectionDataSourceProxy lazyConnectionDataSource() {
-        return new LazyConnectionDataSourceProxy(dataSource());
+    public LazyConnectionDataSourceProxy panAuditLazyConnectionDataSource() {
+        return new LazyConnectionDataSourceProxy(panAuditDataSource());
     }
 
     @Bean
-    public TransactionAwareDataSourceProxy transactionAwareDataSource() {
-        return new TransactionAwareDataSourceProxy(lazyConnectionDataSource());
+    public TransactionAwareDataSourceProxy panAuditTransactionAwareDataSource() {
+        return new TransactionAwareDataSourceProxy(panAuditLazyConnectionDataSource());
+    }
+
+    @Primary
+    @Bean
+    public DataSourceTransactionManager panAuditTransactionManager() {
+        return new DataSourceTransactionManager(panAuditLazyConnectionDataSource());
     }
 
     @Bean
-    public DataSourceTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(lazyConnectionDataSource());
+    public DataSourceConnectionProvider panAuditconnectionProvider() {
+        return new DataSourceConnectionProvider(panAuditTransactionAwareDataSource());
     }
 
     @Bean
-    public DataSourceConnectionProvider connectionProvider() {
-        return new DataSourceConnectionProvider(transactionAwareDataSource());
-    }
-
-    @Bean
-    public JOOQToSpringExceptionTransformer jooqToSpringExceptionTransformer() {
+    public JOOQToSpringExceptionTransformer panAuditjooqToSpringExceptionTransformer() {
         return new JOOQToSpringExceptionTransformer();
     }
 
     @Bean
-    public DefaultConfiguration configuration() {
+    public DefaultConfiguration panAuditConfiguration() {
         DefaultConfiguration jooqConfiguration = new DefaultConfiguration();
 
-        jooqConfiguration.set(connectionProvider());
+        jooqConfiguration.set(panAuditconnectionProvider());
         jooqConfiguration.set(new DefaultExecuteListenerProvider(
-            jooqToSpringExceptionTransformer()
+            panAuditjooqToSpringExceptionTransformer()
         ));
 
         String sqlDialectName = env.getRequiredProperty("pan.jooq.sql.dialect");
@@ -87,7 +89,7 @@ public class PanAuditConfig {
     }
 
     @Bean(name = "panAuditContext")
-    public DefaultDSLContext dsl() {
-        return new DefaultDSLContext(configuration());
+    public DefaultDSLContext panAuditContext() {
+        return new DefaultDSLContext(panAuditConfiguration());
     }
 }

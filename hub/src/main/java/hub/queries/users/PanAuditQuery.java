@@ -5,6 +5,7 @@ import hub.types.dynamic.AuditRecord;
 import hub.types.persistent.Username;
 import org.jooq.Record2;
 import org.jooq.Result;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DefaultDSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import pan.auditdb.Tables;
@@ -22,7 +23,7 @@ import java.util.Map;
  * @author: Markus Binsteiner
  */
 public class PanAuditQuery implements ThingQuery<AuditRecord> {
-
+    
     @Autowired
     private ThingControl tc;
 
@@ -46,10 +47,12 @@ public class PanAuditQuery implements ThingQuery<AuditRecord> {
 
     private AuditRecord getAudit(Thing<Username> un) {
 
-        Result<Record2<Integer, BigDecimal>> result = jooq
+        SelectConditionStep<Record2<Integer, BigDecimal>> query = jooq
                 .select(Tables.AUDIT_USER.DONE, Tables.AUDIT_USER.CORE_HOURS)
                 .from(Tables.AUDIT_USER)
-                .where(Tables.AUDIT_USER.USER.equal(tc.getValue(un).getValue())).fetch();
+                .where(Tables.AUDIT_USER.USER.equal(tc.getValue(un).getValue()));
+
+        Result<Record2<Integer, BigDecimal>> result = query.fetch();
 
         final AuditRecord ar = new AuditRecord();
 

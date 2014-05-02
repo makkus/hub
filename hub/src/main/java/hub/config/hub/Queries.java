@@ -70,7 +70,7 @@ public class Queries {
     public TreeMap<String, ThingQuery> thingQueries() throws Exception {
 
         TreeMap<String, ThingQuery> queryMap = Maps.newTreeMap();
-        queryMap.put("user_details", userLookup());
+        queryMap.put("details", userLookup());
         queryMap.put("audit_data", panAuditQuery());
         queryMap.put("jobs", sshJobsLister());
         return queryMap;

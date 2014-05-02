@@ -82,6 +82,7 @@ public class HubConfig extends MongoThingConfiguration {
 
         return map;
     }
+    
 
 }
 
@@ -113,7 +114,7 @@ public class HubConfig extends MongoThingConfiguration {
 
 
 //    @Bean
-//    public BasicDataSource dataSource() {
+//    public BasicDataSource panAuditDataSource() {
 //        BasicDataSource ds = new BasicDataSource();
 //        ds.setUrl("jdbc:h2:target/jooq-example");
 //        ds.setDriverClassName("org.h2.Driver");
