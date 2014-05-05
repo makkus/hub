@@ -74,8 +74,8 @@ public class UserUtils {
         Thing<Person> p = null;
 
         if ( TypeRegistry.equalsType(Username.class, usernameOrPerson.getThingType()) ) {
-
-            List<Thing> parents = tc.findThingsByOtherThingId(usernameOrPerson.getId());
+            //TODO
+            List<Thing> parents = null;//tc.findThingsByOtherThingId(usernameOrPerson.getId());
 
             if ( parents.size() == 0 ) {
                 throw new ThingRuntimeException(usernameOrPerson, "No person object found for username");
